@@ -130,10 +130,20 @@ void MallaInd::visualizarGL( )
 
    if (dvao == nullptr){
       dvao = new DescrVAO(numero_atributos_cauce,¿numero atributos?);
-      dvao->agregar(new DescrVBOAtribs(triangulos));
-      for (int i = 0; i < )
+      dvao->agregar(new DescrVBOAtribs(0,triangulos));
 
-   }
+      dvao->agregar(new DescrVBOInds(triangulos));
+      if(!vertices.empty)
+         dvao->agregar(new DescrVBOAtribs(1,vertices));
+      if(!col_ver.empty)
+         dvao->agregar(new DescrVBOAtribs(2,col_ver));
+      if(!nor_ver.empty)
+         dvao->agregar(new DescrVBOAtribs(3,nor_ver));
+      if(!nor_tri.empty)
+         dvao->agregar(new DescrVBOAtribs(4,nor_tri));
+      if(!cc_tt_ver.empty)
+         dvao->agregar(new DescrVBOAtribs(5,cc_tt_ver));
+    {
 
    // COMPLETAR: práctica 1: visualizar el VAO usando el método 'draw' de 'DescrVAO'
 
@@ -144,6 +154,8 @@ void MallaInd::visualizarGL( )
    //    - hacer 'pop' del color actual del cauce
 
 }
+
+
 
 
 // -----------------------------------------------------------------------------
