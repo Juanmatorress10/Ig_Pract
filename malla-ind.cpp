@@ -110,7 +110,7 @@ void MallaInd::visualizarGL( )
    //    - hacer push del color actual del cauce
    //    - fijar el color en el cauce usando el color del objeto (se lee con 'leerColor()')
 
-   if (tieneColor){
+   if (tieneColor()){
       cauce->pushColor();
       cauce->fijarColor(leerColor());
    }
