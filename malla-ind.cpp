@@ -153,7 +153,7 @@ void MallaInd::visualizarGL( )
    // Si el objeto tiene un color asignado (se comprueba con 'tieneColor')
    //    - hacer 'pop' del color actual del cauce
 
-   if(tieneColor)
+   if(tieneColor())
       cauce->popColor();
 
 }
