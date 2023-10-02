@@ -129,29 +129,32 @@ void MallaInd::visualizarGL( )
 
 
    if (dvao == nullptr){
-      dvao = new DescrVAO(numero_atributos_cauce,¿numero atributos?);
-      dvao->agregar(new DescrVBOAtribs(0,triangulos));
+      dvao = new DescrVAO(numero_atributos_cauce,new DescrVBOAtribs(0,vertices));
 
       dvao->agregar(new DescrVBOInds(triangulos));
-      if(!vertices.empty)
-         dvao->agregar(new DescrVBOAtribs(1,vertices));
-      if(!col_ver.empty)
-         dvao->agregar(new DescrVBOAtribs(2,col_ver));
-      if(!nor_ver.empty)
-         dvao->agregar(new DescrVBOAtribs(3,nor_ver));
-      if(!nor_tri.empty)
-         dvao->agregar(new DescrVBOAtribs(4,nor_tri));
-      if(!cc_tt_ver.empty)
-         dvao->agregar(new DescrVBOAtribs(5,cc_tt_ver));
-    {
+
+      if(!col_ver.empty())
+         dvao->agregar(new DescrVBOAtribs(1,col_ver));
+      if(!nor_ver.empty())
+         dvao->agregar(new DescrVBOAtribs(2,nor_ver));
+      if(!nor_tri.empty())
+         dvao->agregar(new DescrVBOAtribs(3,nor_tri));
+      if(!cc_tt_ver.empty())
+         dvao->agregar(new DescrVBOAtribs(4,cc_tt_ver));
+   }
 
    // COMPLETAR: práctica 1: visualizar el VAO usando el método 'draw' de 'DescrVAO'
+
+   dvao->draw(GL_TRIANGLES);
 
 
    // COMPLETAR: práctica 1: restaurar color anterior del cauce 
    //
    // Si el objeto tiene un color asignado (se comprueba con 'tieneColor')
    //    - hacer 'pop' del color actual del cauce
+
+   if(tieneColor)
+      cauce->popColor();
 
 }
 
@@ -176,6 +179,25 @@ void MallaInd::visualizarGeomGL( )
    //    2. Dibujar la malla (únicamente visualizará los triángulos)
    //    3. Volver a activar todos los atributos para los cuales la tabla no esté vacía
    // ....
+      if(!col_ver.empty())
+         dvao->habilitarAtrib(1,false);
+      if(!nor_ver.empty())
+         dvao->habilitarAtrib(2,false);
+      if(!nor_tri.empty())
+        dvao->habilitarAtrib(3,false);
+      if(!cc_tt_ver.empty())
+         dvao->habilitarAtrib(4,false);
+
+      dvao->draw(GL_TRIANGLES);
+
+      if(!col_ver.empty())
+         dvao->habilitarAtrib(1,true);
+      if(!nor_ver.empty())
+         dvao->habilitarAtrib(2,true);
+      if(!nor_tri.empty())
+        dvao->habilitarAtrib(3,true);
+      if(!cc_tt_ver.empty())
+         dvao->habilitarAtrib(4,true);
 
 }
 
