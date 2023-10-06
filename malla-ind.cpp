@@ -129,18 +129,16 @@ void MallaInd::visualizarGL( )
 
 
    if (dvao == nullptr){
-      dvao = new DescrVAO(numero_atributos_cauce,new DescrVBOAtribs(0,vertices));
+      dvao = new DescrVAO(numero_atributos_cauce,new DescrVBOAtribs(ind_atrib_posiciones,vertices));
 
       dvao->agregar(new DescrVBOInds(triangulos));
 
       if(!col_ver.empty())
-         dvao->agregar(new DescrVBOAtribs(1,col_ver));
+         dvao->agregar(new DescrVBOAtribs(ind_atrib_colores,col_ver));
       if(!nor_ver.empty())
-         dvao->agregar(new DescrVBOAtribs(2,nor_ver));
-      if(!nor_tri.empty())
-         dvao->agregar(new DescrVBOAtribs(3,nor_tri));
+         dvao->agregar(new DescrVBOAtribs(ind_atrib_normales,nor_ver));
       if(!cc_tt_ver.empty())
-         dvao->agregar(new DescrVBOAtribs(4,cc_tt_ver));
+         dvao->agregar(new DescrVBOAtribs(ind_atrib_coord_text,cc_tt_ver));
    }
 
    // COMPLETAR: práctica 1: visualizar el VAO usando el método 'draw' de 'DescrVAO'
@@ -180,24 +178,21 @@ void MallaInd::visualizarGeomGL( )
    //    3. Volver a activar todos los atributos para los cuales la tabla no esté vacía
    // ....
       if(!col_ver.empty())
-         dvao->habilitarAtrib(1,false);
+         dvao->habilitarAtrib(ind_atrib_colores,false);
       if(!nor_ver.empty())
-         dvao->habilitarAtrib(2,false);
-      if(!nor_tri.empty())
-        dvao->habilitarAtrib(3,false);
+         dvao->habilitarAtrib(ind_atrib_normales,false);
       if(!cc_tt_ver.empty())
-         dvao->habilitarAtrib(4,false);
+         dvao->habilitarAtrib(ind_atrib_coord_text,false);
 
       dvao->draw(GL_TRIANGLES);
 
       if(!col_ver.empty())
-         dvao->habilitarAtrib(1,true);
+         dvao->habilitarAtrib(ind_atrib_colores,true);
       if(!nor_ver.empty())
-         dvao->habilitarAtrib(2,true);
-      if(!nor_tri.empty())
-        dvao->habilitarAtrib(3,true);
+         dvao->habilitarAtrib(ind_atrib_normales,true);
+
       if(!cc_tt_ver.empty())
-         dvao->habilitarAtrib(4,true);
+         dvao->habilitarAtrib(ind_atrib_coord_text,true);
 
 }
 

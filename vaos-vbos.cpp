@@ -145,7 +145,7 @@ void DescrVBOAtribs::crearVBO()
    // 3. transferir los datos desde la memoria de la aplicación al VBO en GPU
    glBufferData(GL_ARRAY_BUFFER, tot_size, data, GL_STATIC_DRAW);
    // 4. registrar para este índice de atributo, la localización y el formato de la tabla en el buffer 
-   glVertexAttribPointer(index, size, type, GL_FALSE, 0, data);
+   glVertexAttribPointer(index, size, type, GL_FALSE, stride, offset);
    // 5. desactivar el buffer
    glBindBuffer(GL_ARRAY_BUFFER,0);
    // 6. habilitar el uso de esta tabla de atributos
@@ -370,11 +370,14 @@ void DescrVAO::crearVAO()
    //
    // 1. Crear el nombre de VAO y activarlo como VAO actual (hacer 'bind')
    glGenVertexArrays(1, &array);
+   assert(0<array);
    glBindVertexArray(array);
    // 2. Para cada VBO de atributos adjunto al VAO (puntero en 'dvbo_atributo' no nulo):
    //       Crear el VBO de atributos en la GPU (usar 'crearVBO')  
-   for (int i = 0; i < num_atribs; i++){
-      dvbo_atributo[i]->crearVBO();
+   for (unsigned i = 0; i < num_atribs; i++){
+      if (dvbo_atributo[i] != nullptr){
+         dvbo_atributo[i]->crearVBO();
+         }
    }
    // 3. Si hay índices (puntero dvbo_indices no nulo) entonces, 
    //       Crear el VBO de índices (usar método 'crearVBO')
@@ -385,9 +388,9 @@ void DescrVAO::crearVAO()
    // 4. Para cada VBO de atributos adjunto al VAO (puntero en 'dvbo_atributo' no nulo):
    //       Si la tabla está deshabilitada en el vector 'atrib_habilitado':
    //           Deshabilitarla en la GPU con 'glDisableVertexArray'
-   for (int i = 0; i < num_atribs; i++){
-      if(!atrib_habilitado[i]){
-         glDisableVertexAttribArray(i);
+   for (unsigned i = 0; i < num_atribs; i++){
+      if(!atrib_habilitado[i] && dvbo_atributo[i] != nullptr){
+         glDisableVertexAttribArray(dvbo_atributo[i]->buffer);
       }
    }
 
@@ -463,10 +466,12 @@ void DescrVAO::draw( const GLenum mode )
    //    Si la secuencia no es indexada 
    //     - visualizar con 'glDrawArrays'
    //
-   if (dvbo_indices != nullptr)
+   if (dvbo_indices != nullptr){
       glDrawElements(mode, idxs_count, idxs_type, offset);
+   }
+      
    else 
-      glDrawArrays(mode,0,count);
+      glDrawArrays(mode,first,count);
 
 
    // 3. Desactivar el VAO (activar el VAO 0 con 'glBindVertexArray')
